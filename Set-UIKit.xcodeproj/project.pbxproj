@@ -6,14 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		07F3E2772E2B9DEC0037ADD5 /* SetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3E26F2E2B9DEC0037ADD5 /* SetViewController.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		07F3E24A2E2B94140037ADD5 /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		07F3E26F2E2B9DEC0037ADD5 /* SetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		07F3E2CB2E2BA7F60037ADD5 /* Exceptions for "Supporting Files" folder in "Set" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 07F3E2492E2B94140037ADD5 /* Set */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		07F3E27A2E2B9E260037ADD5 /* Utilities */ = {
@@ -21,14 +26,27 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		07F3E27C2E2B9E5A0037ADD5 /* Models */ = {
+		07F3E2842E2B9E5C0037ADD5 /* Supporting Files */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				07F3E2CB2E2BA7F60037ADD5 /* Exceptions for "Supporting Files" folder in "Set" target */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		07F3E2CD2E2BA9550037ADD5 /* Models */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Models;
 			sourceTree = "<group>";
 		};
-		07F3E2842E2B9E5C0037ADD5 /* Supporting Files */ = {
+		07F3E2D02E2BA96E0037ADD5 /* ViewControllers */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Supporting Files";
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		07F3E2D22E2BA9A30037ADD5 /* Constants */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -63,10 +81,11 @@
 		07F3E2702E2B9DEC0037ADD5 /* Set-UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				07F3E2D22E2BA9A30037ADD5 /* Constants */,
+				07F3E2D02E2BA96E0037ADD5 /* ViewControllers */,
+				07F3E2CD2E2BA9550037ADD5 /* Models */,
 				07F3E27A2E2B9E260037ADD5 /* Utilities */,
-				07F3E27C2E2B9E5A0037ADD5 /* Models */,
 				07F3E2842E2B9E5C0037ADD5 /* Supporting Files */,
-				07F3E26F2E2B9DEC0037ADD5 /* SetViewController.swift */,
 			);
 			path = "Set-UIKit";
 			sourceTree = "<group>";
@@ -88,8 +107,10 @@
 			);
 			fileSystemSynchronizedGroups = (
 				07F3E27A2E2B9E260037ADD5 /* Utilities */,
-				07F3E27C2E2B9E5A0037ADD5 /* Models */,
 				07F3E2842E2B9E5C0037ADD5 /* Supporting Files */,
+				07F3E2CD2E2BA9550037ADD5 /* Models */,
+				07F3E2D02E2BA96E0037ADD5 /* ViewControllers */,
+				07F3E2D22E2BA9A30037ADD5 /* Constants */,
 			);
 			name = Set;
 			packageProductDependencies = (
@@ -147,7 +168,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07F3E2772E2B9DEC0037ADD5 /* SetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +183,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2YC4F3BC63;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Set/Info.plist;
+				INFOPLIST_FILE = "Set-UIKit/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -190,7 +210,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2YC4F3BC63;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Set/Info.plist;
+				INFOPLIST_FILE = "Set-UIKit/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
