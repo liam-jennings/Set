@@ -6,27 +6,29 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		07F3E2772E2B9DEC0037ADD5 /* SetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3E26F2E2B9DEC0037ADD5 /* SetViewController.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		07F3E24A2E2B94140037ADD5 /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		07F3E26F2E2B9DEC0037ADD5 /* SetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		07F3E25C2E2B94160037ADD5 /* Exceptions for "Set" folder in "Set" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 07F3E2492E2B94140037ADD5 /* Set */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		07F3E24C2E2B94140037ADD5 /* Set */ = {
+		07F3E27A2E2B9E260037ADD5 /* Utilities */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				07F3E25C2E2B94160037ADD5 /* Exceptions for "Set" folder in "Set" target */,
-			);
-			path = Set;
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		07F3E27C2E2B9E5A0037ADD5 /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		07F3E2842E2B9E5C0037ADD5 /* Supporting Files */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -45,7 +47,7 @@
 		07F3E2412E2B94140037ADD5 = {
 			isa = PBXGroup;
 			children = (
-				07F3E24C2E2B94140037ADD5 /* Set */,
+				07F3E2702E2B9DEC0037ADD5 /* Set-UIKit */,
 				07F3E24B2E2B94140037ADD5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +58,17 @@
 				07F3E24A2E2B94140037ADD5 /* Set.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		07F3E2702E2B9DEC0037ADD5 /* Set-UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				07F3E27A2E2B9E260037ADD5 /* Utilities */,
+				07F3E27C2E2B9E5A0037ADD5 /* Models */,
+				07F3E2842E2B9E5C0037ADD5 /* Supporting Files */,
+				07F3E26F2E2B9DEC0037ADD5 /* SetViewController.swift */,
+			);
+			path = "Set-UIKit";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,7 +87,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				07F3E24C2E2B94140037ADD5 /* Set */,
+				07F3E27A2E2B9E260037ADD5 /* Utilities */,
+				07F3E27C2E2B9E5A0037ADD5 /* Models */,
+				07F3E2842E2B9E5C0037ADD5 /* Supporting Files */,
 			);
 			name = Set;
 			packageProductDependencies = (
@@ -98,7 +113,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 07F3E2452E2B94140037ADD5 /* Build configuration list for PBXProject "Set" */;
+			buildConfigurationList = 07F3E2452E2B94140037ADD5 /* Build configuration list for PBXProject "Set-UIKit" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -132,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07F3E2772E2B9DEC0037ADD5 /* SetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +332,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		07F3E2452E2B94140037ADD5 /* Build configuration list for PBXProject "Set" */ = {
+		07F3E2452E2B94140037ADD5 /* Build configuration list for PBXProject "Set-UIKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				07F3E2602E2B94160037ADD5 /* Debug */,
