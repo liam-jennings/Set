@@ -70,9 +70,6 @@ class SetViewController: UIViewController {
         newGameButton.backgroundColor = .systemGreen
         newGameButton.setTitleColor(.white, for: .normal)
         newGameButton.layer.cornerRadius = 8
-        
-        // newGameButton.addTarget(self, action: #selector(handleNewGameButtonTapped), for: .touchUpInside)
-        
         newGameButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(newGameButton)
     }
@@ -84,19 +81,22 @@ class SetViewController: UIViewController {
             scoreLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.spacing),
             scoreLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -LayoutConstants.spacing),
             
+            // New Game Button - right half of screen
             newGameButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -LayoutConstants.spacing),
+            newGameButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: LayoutConstants.spacing),
             newGameButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -LayoutConstants.spacing),
-            newGameButton.heightAnchor.constraint(equalToConstant: 44),
-            newGameButton.widthAnchor.constraint(equalToConstant: 120),
+            newGameButton.heightAnchor.constraint(equalToConstant: 85),
             
+            // Deck View - left quarter of screen
             deckView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -LayoutConstants.spacing),
             deckView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.spacing),
-            deckView.widthAnchor.constraint(equalToConstant: 60),
+            deckView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25, constant: -LayoutConstants.spacing * 1.5),
             deckView.heightAnchor.constraint(equalToConstant: 85),
             
+            // Discard View - second quarter of screen
             discardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -LayoutConstants.spacing),
             discardView.leadingAnchor.constraint(equalTo: deckView.trailingAnchor, constant: LayoutConstants.spacing),
-            discardView.widthAnchor.constraint(equalToConstant: 60),
+            discardView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25, constant: -LayoutConstants.spacing * 1.5),
             discardView.heightAnchor.constraint(equalToConstant: 85),
             
             cardContainerView.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: LayoutConstants.spacing),
@@ -107,4 +107,9 @@ class SetViewController: UIViewController {
         ])
         
     }
+}
+// MARK: - Preview
+
+#Preview {
+    SetViewController()
 }
