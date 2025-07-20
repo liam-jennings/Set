@@ -19,11 +19,23 @@ class SetViewController: UIViewController {
     private let discardView = UIView()
     private let newGameButton = UIButton()
     
+    // MARK: - Dynamic Layout Properties
+    private var cardViews: [CardView] = []
+    private var grid: Grid!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
         setupConstraints()
+        startNewGame()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Update grid when layout changes (e.g., rotation)
+        updateGrid()
+        updateCardViews()
     }
     
     // MARK: - UI Setup
@@ -35,10 +47,11 @@ class SetViewController: UIViewController {
         setupDeck()
         setupDiscardPile()
         setupNewGameButton()
+        
     }
     
     private func setupScoreLabel() {
-        scoreLabel.text = "Getting many cards to render" // "Score: 0"
+        scoreLabel.text = "Score: 0"
         scoreLabel.font = .systemFont(ofSize: 24, weight: .bold)
         scoreLabel.textAlignment = .center
         scoreLabel.textColor = .label
@@ -68,12 +81,13 @@ class SetViewController: UIViewController {
     }
     
     private func setupNewGameButton() {
-        newGameButton.setTitle( "New Game", for: .normal)
+        newGameButton.setTitle("New Game", for: .normal)
         newGameButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
         newGameButton.backgroundColor = .systemBlue
         newGameButton.setTitleColor(.white, for: .normal)
         newGameButton.layer.cornerRadius = LayoutConstants.cornerRadius
         newGameButton.translatesAutoresizingMaskIntoConstraints = false
+        newGameButton.addTarget(self, action: #selector(newGameTapped), for: .touchUpInside)
         view.addSubview(newGameButton)
     }
     
@@ -109,12 +123,63 @@ class SetViewController: UIViewController {
             
         ])
     }
+    
+    private func updateGrid() {
+        let containerBounds = cardContainerView.bounds
+        guard containerBounds != .zero else { return }
+        
+        grid = Grid(layout: .aspectRatio(LayoutConstants.cardRatio), frame: containerBounds)
+        grid.cellCount = game.currentCards.compactMap { $0 }.count
+    }
+    
+    private func startNewGame() {
+        // Remove existing card views
+        cardViews.forEach { $0.removeFromSuperview() }
+        cardViews.removeAll()
+        
+        // Create new card views for current cards
+        createCardViews()
+        updateCardViews()
+    }
+    
+    private func createCardViews() {
+        let currentCards = game.currentCards.compactMap { $0 }
+        
+        for card in currentCards {
+            let cardView = CardView(frame: .zero, card: card)
+            cardView.translatesAutoresizingMaskIntoConstraints = false
+            cardContainerView.addSubview(cardView)
+            cardViews.append(cardView)
+        }
+    }
+    
+    private func updateCardViews() {
+        guard grid != nil else {
+            updateGrid()
+            return
+        }
+        
+        for (index, cardView) in cardViews.enumerated() {
+            if let cellFrame = grid[index] {
+                // Add some padding around each card
+                let padding: CGFloat = 4
+                let cardFrame = cellFrame.insetBy(dx: padding, dy: padding)
+                cardView.frame = cardFrame
+            }
+        }
+    }
+    
+    @objc private func newGameTapped() {
+        game = SetGame()
+        startNewGame()
+    }
 }
 
 extension SetViewController {
     struct LayoutConstants {
         static let spacing: CGFloat = 20
         static let cornerRadius: CGFloat = 8
+        static let cardRatio: CGFloat = (2.5/3.5)
     }
 }
 

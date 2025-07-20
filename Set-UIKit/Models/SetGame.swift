@@ -11,7 +11,7 @@ class SetGame {
     
     // MARK: - Game State
     private var deck = [SetCard]()
-    private var currentCards: [SetCard?] = [] // optional as nil represents empty card slot
+    var currentCards: [SetCard?] = [] // optional as nil represents empty card slot
     
     private var score: Int = 0
     
@@ -25,17 +25,36 @@ class SetGame {
     
     private func newGame() {
         deck = []
+        currentCards = []
+        score = 0
         
         deck = Shape.allCases.flatMap { shape in
             Colour.allCases.flatMap { colour in
                 Shading.allCases.flatMap { shading in
                     Count.allCases.map { count in
                         SetCard(shape: shape, colour: colour, shading: shading, count: count)
-                    }
-                }
-            }
-        }
+                    }}}}
         
         deck.shuffle()
+        
+        (0..<Self.initialCardDeals).forEach { _ in
+            dealCards()
+        }
+    }
+    
+    private func dealCards() {
+        var cardsDealt = 0
+        
+        // Fill empty slots first
+        for i in currentCards.indices {
+            guard currentCards[i] == nil && !deck.isEmpty && cardsDealt < Self.cardsPerDeal else { continue }
+            currentCards[i] = deck.removeFirst()
+            cardsDealt += 1
+        }
+        
+        while cardsDealt < Self.cardsPerDeal && !deck.isEmpty {
+            currentCards.append(deck.removeFirst())
+            cardsDealt += 1
+        }
     }
 }
