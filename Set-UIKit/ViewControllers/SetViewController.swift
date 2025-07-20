@@ -9,16 +9,19 @@ import UIKit
 
 class SetViewController: UIViewController {
     
+    // MARK: - Game
+    private var game = SetGame()
+    
     // MARK: - UI Components
     private let scoreLabel = UILabel()
     private let cardContainerView = UIView()
     private let deckView = UIView()
     private let discardView = UIView()
     private let newGameButton = UIButton()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupUI()
         setupConstraints()
     }
@@ -35,7 +38,7 @@ class SetViewController: UIViewController {
     }
     
     private func setupScoreLabel() {
-        scoreLabel.text = "Score: 0"
+        scoreLabel.text = "Getting many cards to render" // "Score: 0"
         scoreLabel.font = .systemFont(ofSize: 24, weight: .bold)
         scoreLabel.textAlignment = .center
         scoreLabel.textColor = .label
@@ -45,21 +48,21 @@ class SetViewController: UIViewController {
     
     private func setupCardContainer() {
         cardContainerView.backgroundColor = .secondarySystemBackground
-        cardContainerView.layer.cornerRadius = 8
+        cardContainerView.layer.cornerRadius = LayoutConstants.cornerRadius
         cardContainerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cardContainerView)
     }
     
     private func setupDeck() {
-        deckView.backgroundColor = .systemBlue
-        deckView.layer.cornerRadius = 8
+        deckView.backgroundColor = .systemBrown
+        deckView.layer.cornerRadius = LayoutConstants.cornerRadius
         deckView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(deckView)
     }
     
     private func setupDiscardPile() {
-        discardView.backgroundColor = .systemRed
-        discardView.layer.cornerRadius = 8
+        discardView.backgroundColor = .systemGray5
+        discardView.layer.cornerRadius = LayoutConstants.cornerRadius
         discardView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(discardView)
     }
@@ -67,9 +70,9 @@ class SetViewController: UIViewController {
     private func setupNewGameButton() {
         newGameButton.setTitle( "New Game", for: .normal)
         newGameButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
-        newGameButton.backgroundColor = .systemGreen
+        newGameButton.backgroundColor = .systemBlue
         newGameButton.setTitleColor(.white, for: .normal)
-        newGameButton.layer.cornerRadius = 8
+        newGameButton.layer.cornerRadius = LayoutConstants.cornerRadius
         newGameButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(newGameButton)
     }
@@ -105,9 +108,16 @@ class SetViewController: UIViewController {
             cardContainerView.bottomAnchor.constraint(equalTo: deckView.topAnchor, constant: -LayoutConstants.spacing)
             
         ])
-        
     }
 }
+
+extension SetViewController {
+    struct LayoutConstants {
+        static let spacing: CGFloat = 20
+        static let cornerRadius: CGFloat = 8
+    }
+}
+
 // MARK: - Preview
 
 #Preview {

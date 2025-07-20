@@ -16,9 +16,9 @@ struct SetCard : Equatable
 
 enum Shape: String, CaseIterable
 {
-    case triangle = "▲"
-    case circle = "●"
-    case square = "■"
+    case diamond
+    case oval
+    case squiggle
 }
 
 enum Colour: CaseIterable

@@ -21,6 +21,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		0708E2B02E2BD7E200F6AF82 /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
 		07F3E27A2E2B9E260037ADD5 /* Utilities */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Utilities;
@@ -42,11 +47,6 @@
 		07F3E2D02E2BA96E0037ADD5 /* ViewControllers */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		07F3E2D22E2BA9A30037ADD5 /* Constants */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -81,7 +81,7 @@
 		07F3E2702E2B9DEC0037ADD5 /* Set-UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				07F3E2D22E2BA9A30037ADD5 /* Constants */,
+				0708E2B02E2BD7E200F6AF82 /* Views */,
 				07F3E2D02E2BA96E0037ADD5 /* ViewControllers */,
 				07F3E2CD2E2BA9550037ADD5 /* Models */,
 				07F3E27A2E2B9E260037ADD5 /* Utilities */,
@@ -106,11 +106,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				0708E2B02E2BD7E200F6AF82 /* Views */,
 				07F3E27A2E2B9E260037ADD5 /* Utilities */,
 				07F3E2842E2B9E5C0037ADD5 /* Supporting Files */,
 				07F3E2CD2E2BA9550037ADD5 /* Models */,
 				07F3E2D02E2BA96E0037ADD5 /* ViewControllers */,
-				07F3E2D22E2BA9A30037ADD5 /* Constants */,
 			);
 			name = Set;
 			packageProductDependencies = (
