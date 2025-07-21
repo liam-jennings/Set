@@ -11,6 +11,12 @@ class CardView: UIView {
     
     var card: SetCard? { didSet { setNeedsDisplay(); setNeedsLayout() }}
     
+    var isSelected: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -45,6 +51,8 @@ class CardView: UIView {
         if let card = card {
             drawCardSymbols(for: card, in: rect)
         }
+        
+        drawSelectionBorder()
     }
     
     private func drawCardSymbols(for card: SetCard, in rect: CGRect) {
@@ -212,9 +220,14 @@ class CardView: UIView {
         context.restoreGState()
     }
     
-    
-    
-    
+    private func drawSelectionBorder() {
+        if isSelected {
+            let borderPath = UIBezierPath(roundedRect: bounds.insetBy(dx: 2, dy: 2), cornerRadius: cornerRadius)
+            UIColor.systemBlue.setStroke()
+            borderPath.lineWidth = 3.0
+            borderPath.stroke()
+        }
+    }
 }
 
 // MARK: - CardView Extensions

@@ -12,8 +12,9 @@ class SetGame {
     // MARK: - Game State
     private var deck = [SetCard]()
     var currentCards: [SetCard?] = [] // optional as nil represents empty card slot
+    private var selectedCards: Set<SetCard> = []
     
-    private var score: Int = 0
+    var score: Int = 0
     
     // MARK: - Game Constants
     private static let initialCardDeals: Int = 4
@@ -56,5 +57,41 @@ class SetGame {
             currentCards.append(deck.removeFirst())
             cardsDealt += 1
         }
+    }
+    
+    func selectCard(_ card: SetCard) {
+        if selectedCards.contains(card) {
+            // Card is already selected, so unselect it
+            selectedCards.remove(card)
+        } else if selectedCards.count == 3 {
+            // Already have 3 selected, clear all and select this one
+            selectedCards.removeAll()
+            selectedCards.insert(card)
+        } else {
+            // Add to selection (we have fewer than 3 selected)
+            selectedCards.insert(card)
+        }
+    }
+    
+    // Helper method to check if a card is selected
+    func isCardSelected(_ card: SetCard) -> Bool {
+        return selectedCards.contains(card)
+    }
+    
+    private func clearSelection() {
+        selectedCards.removeAll()
+    }
+}
+
+// Extension for Array to provide meaningful functionality for the Set game
+extension Array where Element == SetCard {
+    // Method that takes a closure to find cards matching a condition
+    func findCards(matching condition: (SetCard) -> Bool) -> [SetCard] {
+        return self.filter(condition)
+    }
+    
+    // Remove all cards that match a given condition
+    mutating func removeCards(matching condition: (SetCard) -> Bool) {
+        self.removeAll(where: condition)
     }
 }

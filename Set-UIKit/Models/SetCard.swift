@@ -5,7 +5,7 @@
 //  Created by Liam Jennings on 19/7/2025.
 //
 
-struct SetCard : Equatable
+struct SetCard : Equatable, Hashable
 {
     // Four attributes of a 'SetCard'
     let shape: Shape

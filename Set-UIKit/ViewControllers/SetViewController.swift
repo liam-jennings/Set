@@ -28,14 +28,13 @@ class SetViewController: UIViewController {
         
         setupUI()
         setupConstraints()
-        startNewGame()
+        grid = Grid(layout: .aspectRatio(LayoutConstants.cardRatio), frame: .zero)
+        updateViewFromModel()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // Update grid when layout changes (e.g., rotation)
-        updateGrid()
-        updateCardViews()
+        updateViewFromModel()
     }
     
     // MARK: - UI Setup
@@ -124,54 +123,79 @@ class SetViewController: UIViewController {
         ])
     }
     
-    private func updateGrid() {
-        let containerBounds = cardContainerView.bounds
-        guard containerBounds != .zero else { return }
-        
-        grid = Grid(layout: .aspectRatio(LayoutConstants.cardRatio), frame: containerBounds)
-        grid.cellCount = game.currentCards.compactMap { $0 }.count
-    }
-    
-    private func startNewGame() {
-        // Remove existing card views
-        cardViews.forEach { $0.removeFromSuperview() }
-        cardViews.removeAll()
-        
-        // Create new card views for current cards
-        createCardViews()
+    // MARK: - View Updates
+    private func updateViewFromModel() {
+        updateGrid()
+        updateScore()
         updateCardViews()
     }
     
-    private func createCardViews() {
+    private func updateGrid() {
+        grid.frame = cardContainerView.bounds
+        let actualCardCount = game.currentCards.compactMap { $0 }.count
+        // Always show at least 12 card spots
+        grid.cellCount = max(actualCardCount, 12)
+    }
+    
+    private func updateScore() {
+        scoreLabel.text = "Score: \(game.score)"
+    }
+    
+    // Modify your existing updateCardViews method
+    private func updateCardViews() {
         let currentCards = game.currentCards.compactMap { $0 }
         
-        for card in currentCards {
-            let cardView = CardView(frame: .zero, card: card)
+        // Remove excess card views if we have more views than cards
+        while cardViews.count > currentCards.count {
+            cardViews.removeLast().removeFromSuperview()
+        }
+        
+        // Add new card views if we have fewer views than cards
+        while cardViews.count < currentCards.count {
+            let cardIndex = cardViews.count
+            let cardView = CardView(frame: .zero, card: currentCards[cardIndex])
             cardView.translatesAutoresizingMaskIntoConstraints = false
             cardContainerView.addSubview(cardView)
             cardViews.append(cardView)
         }
-    }
-    
-    private func updateCardViews() {
-        guard grid != nil else {
-            updateGrid()
-            return
-        }
         
+        // Position and configure all card views
         for (index, cardView) in cardViews.enumerated() {
             if let cellFrame = grid[index] {
-                // Add some padding around each card
                 let padding: CGFloat = 4
-                let cardFrame = cellFrame.insetBy(dx: padding, dy: padding)
-                cardView.frame = cardFrame
+                cardView.frame = cellFrame.insetBy(dx: padding, dy: padding)
+                
+                // Set selection state
+                if let card = cardView.card {
+                    cardView.isSelected = game.isCardSelected(card)
+                }
+                
+                // Remove old gesture recognizers
+                cardView.gestureRecognizers?.removeAll()
+                
+                // Add tap gesture
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cardTapped(_:)))
+                cardView.addGestureRecognizer(tapGesture)
             }
         }
     }
     
+    // MARK: - Actions
     @objc private func newGameTapped() {
+        // For new game, completely clear card views since we're getting entirely new cards
+        cardViews.forEach { $0.removeFromSuperview() }
+        cardViews.removeAll()
+        
         game = SetGame()
-        startNewGame()
+        updateViewFromModel()
+    }
+    
+    @objc private func cardTapped(_ gesture: UITapGestureRecognizer) {
+        guard let tappedCardView = gesture.view as? CardView,
+              let card = tappedCardView.card else { return }
+        
+        game.selectCard(card)
+        updateViewFromModel()
     }
 }
 
