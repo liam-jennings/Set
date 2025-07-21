@@ -17,6 +17,15 @@ class CardView: UIView {
         }
     }
     
+    var isFailedMatch: Bool = false { didSet { setNeedsDisplay() } }
+    
+    private var borderColour: UIColor {
+        if isFailedMatch {
+            return .systemRed
+        }
+        return .systemBlue
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -223,7 +232,7 @@ class CardView: UIView {
     private func drawSelectionBorder() {
         if isSelected {
             let borderPath = UIBezierPath(roundedRect: bounds.insetBy(dx: 2, dy: 2), cornerRadius: cornerRadius)
-            UIColor.systemBlue.setStroke()
+            borderColour.setStroke()
             borderPath.lineWidth = 3.0
             borderPath.stroke()
         }

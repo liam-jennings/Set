@@ -13,6 +13,8 @@ class SetGame {
     private var deck = [SetCard]()
     var currentCards: [SetCard?] = [] // optional as nil represents empty card slot
     private var selectedCards: Set<SetCard> = []
+    private var matchedCards: Set<SetCard> = []
+    var isFailedMatch: Bool = false
     
     var score: Int = 0
     
@@ -43,7 +45,7 @@ class SetGame {
         }
     }
     
-    private func dealCards() {
+    func dealCards() {
         var cardsDealt = 0
         
         // Fill empty slots first
@@ -63,13 +65,41 @@ class SetGame {
         if selectedCards.contains(card) {
             // Card is already selected, so unselect it
             selectedCards.remove(card)
+            isFailedMatch = false
         } else if selectedCards.count == 3 {
             // Already have 3 selected, clear all and select this one
             selectedCards.removeAll()
             selectedCards.insert(card)
+            isFailedMatch = false
         } else {
             // Add to selection (we have fewer than 3 selected)
             selectedCards.insert(card)
+            isFailedMatch = false
+        }
+        
+        if selectedCards.count == 3 {
+            if isValidSet(Array(selectedCards)) {
+                // Move matched cards into matchedCards
+                for card in selectedCards {
+                    matchedCards.insert(card)
+                }
+                
+                // Remove matched cards from currentCards (replace with nil)
+                for i in currentCards.indices {
+                    if let card = currentCards[i], selectedCards.contains(card) {
+                        currentCards[i] = nil
+                    }
+                }
+                
+                // Clear selection
+                selectedCards.removeAll()
+                
+                
+                isFailedMatch = false
+                
+            } else {
+                isFailedMatch = true
+            }
         }
     }
     
@@ -80,6 +110,10 @@ class SetGame {
     
     private func clearSelection() {
         selectedCards.removeAll()
+    }
+    
+    private func isValidSet(_ cards: [SetCard]) -> Bool {
+        return true
     }
 }
 

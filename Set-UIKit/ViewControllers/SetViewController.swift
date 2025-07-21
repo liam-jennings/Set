@@ -69,6 +69,10 @@ class SetViewController: UIViewController {
         deckView.backgroundColor = .systemBrown
         deckView.layer.cornerRadius = LayoutConstants.cornerRadius
         deckView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDeckTapped(_:)))
+        deckView.addGestureRecognizer(tapGesture)
+        
         view.addSubview(deckView)
     }
     
@@ -86,7 +90,7 @@ class SetViewController: UIViewController {
         newGameButton.setTitleColor(.white, for: .normal)
         newGameButton.layer.cornerRadius = LayoutConstants.cornerRadius
         newGameButton.translatesAutoresizingMaskIntoConstraints = false
-        newGameButton.addTarget(self, action: #selector(newGameTapped), for: .touchUpInside)
+        newGameButton.addTarget(self, action: #selector(handleNewGameTapped), for: .touchUpInside)
         view.addSubview(newGameButton)
     }
     
@@ -132,28 +136,28 @@ class SetViewController: UIViewController {
     
     private func updateGrid() {
         grid.frame = cardContainerView.bounds
-        let actualCardCount = game.currentCards.compactMap { $0 }.count
+        // Use the total number of card slots, not just non-nil cards
+        let totalSlots = game.currentCards.count
         // Always show at least 12 card spots
-        grid.cellCount = max(actualCardCount, 12)
+        grid.cellCount = max(totalSlots, 12)
     }
     
     private func updateScore() {
         scoreLabel.text = "Score: \(game.score)"
     }
     
-    // Modify your existing updateCardViews method
     private func updateCardViews() {
-        let currentCards = game.currentCards.compactMap { $0 }
+        // Work with the actual game.currentCards array (including nils)
+        let totalSlots = game.currentCards.count
         
-        // Remove excess card views if we have more views than cards
-        while cardViews.count > currentCards.count {
+        // Remove excess card views if we have more views than total slots
+        while cardViews.count > totalSlots {
             cardViews.removeLast().removeFromSuperview()
         }
         
-        // Add new card views if we have fewer views than cards
-        while cardViews.count < currentCards.count {
-            let cardIndex = cardViews.count
-            let cardView = CardView(frame: .zero, card: currentCards[cardIndex])
+        // Add new card views if we have fewer views than total slots
+        while cardViews.count < totalSlots {
+            let cardView = CardView(frame: .zero, card: nil)
             cardView.translatesAutoresizingMaskIntoConstraints = false
             cardContainerView.addSubview(cardView)
             cardViews.append(cardView)
@@ -165,23 +169,35 @@ class SetViewController: UIViewController {
                 let padding: CGFloat = 4
                 cardView.frame = cellFrame.insetBy(dx: padding, dy: padding)
                 
-                // Set selection state
+                // Set the card for this view (could be nil)
+                cardView.card = game.currentCards[index]
+                
+                // Set selection and failed match state only if card exists
                 if let card = cardView.card {
                     cardView.isSelected = game.isCardSelected(card)
+                    cardView.isFailedMatch = game.isFailedMatch && game.isCardSelected(card)
+                    cardView.isHidden = false
+                } else {
+                    // Hide empty card slots
+                    cardView.isSelected = false
+                    cardView.isFailedMatch = false
+                    cardView.isHidden = true
                 }
                 
                 // Remove old gesture recognizers
                 cardView.gestureRecognizers?.removeAll()
                 
-                // Add tap gesture
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cardTapped(_:)))
-                cardView.addGestureRecognizer(tapGesture)
+                // Add tap gesture only if card exists
+                if cardView.card != nil {
+                    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCardTapped(_:)))
+                    cardView.addGestureRecognizer(tapGesture)
+                }
             }
         }
     }
     
     // MARK: - Actions
-    @objc private func newGameTapped() {
+    @objc private func handleNewGameTapped() {
         // For new game, completely clear card views since we're getting entirely new cards
         cardViews.forEach { $0.removeFromSuperview() }
         cardViews.removeAll()
@@ -190,11 +206,16 @@ class SetViewController: UIViewController {
         updateViewFromModel()
     }
     
-    @objc private func cardTapped(_ gesture: UITapGestureRecognizer) {
+    @objc private func handleCardTapped(_ gesture: UITapGestureRecognizer) {
         guard let tappedCardView = gesture.view as? CardView,
               let card = tappedCardView.card else { return }
         
         game.selectCard(card)
+        updateViewFromModel()
+    }
+    
+    @objc private func handleDeckTapped(_ gesture: UITapGestureRecognizer) {
+        game.dealCards()
         updateViewFromModel()
     }
 }
